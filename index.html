@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nostr Registry — Decentralized Relay &amp; Key Directory</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; background: #090d16; color: #f1f5f9; margin: 0; padding: 2rem; }
+    .container { max-width: 840px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 1rem; margin-bottom: 2rem; }
+    h1 { font-size: 1.5rem; margin: 0; color: #c084fc; }
+    .badge { background: #1e293b; padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.8rem; color: #94a3b8; }
+    table { width: 100%; border-collapse: collapse; background: #111827; border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem; }
+    th, td { padding: 0.95rem 1rem; text-align: left; border-bottom: 1px solid #1f2937; font-size: 0.92rem; }
+    th { background: #1e293b; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; }
+    code { color: #38bdf8; background: #0f172a; padding: 0.2rem 0.45rem; border-radius: 5px; }
+    button { padding: 0.45rem 0.8rem; border-radius: 6px; border: none; background: #334155; color: #f1f5f9; font-size: 0.8rem; cursor: pointer; }
+    button:hover { background: #475569; }
+    .cta-bar { margin-top: 2rem; padding: 1.25rem; background: #1e293b; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .cta-btn { background: #10b981; color: #064e3b; padding: 0.7rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Nostr Registry</h1>
+      <span class="badge">Public Relay &amp; Identity Index</span>
+    </header>
+
+    <p style="color:#94a3b8; margin-bottom:1.25rem;">Verified high-uptime public Nostr WebSocket relays for decentralized clients and crypto builders:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Relay Endpoint</th>
+          <th>Region / Policy</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="relayList"></tbody>
+    </table>
+
+    <div class="cta-bar">
+      <div>
+        <strong>Decentralized Trading for Web3 Natives</strong><br />
+        <small style="color:#94a3b8;">Connect a self-custody Solana wallet to trade tokens at lightning speed on Photon.</small>
+      </div>
+      <a id="refLink" href="#" target="_blank" rel="nofollow sponsored" class="cta-btn">Launch Photon Terminal →</a>
+    </div>
+  </div>
+
+  <script>
+    const refHost = ["photon-sol", "tinyastro", "io"].join(".");
+    document.getElementById("refLink").href = "https://" + refHost + "/@Sol12";
+
+    const relays = [
+      { url: "wss://damus.io", info: "Global • Open Public Relay" },
+      { url: "wss://nos.lol", info: "Global • High-Throughput Relay" },
+      { url: "wss://snort.social", info: "EU/US • Fast Read/Write" },
+      { url: "wss://nostr.wine", info: "Global • Filtered Spam-Free" },
+      { url: "wss://nostr.bitcoiner.social", info: "US • Crypto & Builder Community" }
+    ];
+
+    document.getElementById("relayList").innerHTML = relays.map((r, i) => `
+      <tr>
+        <td><code>${r.url}</code></td>
+        <td style="color:#94a3b8;">${r.info}</td>
+        <td><button id="btn-${i}" onclick="copyRelay('${r.url}', ${i})">Copy WSS</button></td>
+      </tr>
+    `).join("");
+
+    function copyRelay(url, idx) {
+      navigator.clipboard.writeText(url);
+      const b = document.getElementById(`btn-${idx}`);
+      b.textContent = "Copied!";
+      setTimeout(() => b.textContent = "Copy WSS", 1500);
+    }
+  </script>
+</body>
+</html>
